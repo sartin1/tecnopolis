@@ -1,0 +1,26 @@
+{include="header2"}
+<script> 
+function cuenta(){ 
+      	document.forms[0].caracteres.value=document.forms[0].setMensaje.value.length 
+} 
+</script>
+<form name="enviar()" method="post" action="index.php?page=sms"><br>
+<div class="col-sm-6">
+Celular del cliente:
+<input class="form-control" value="" name="addNumero"></input>
+</div>
+<br><br><br>
+<div class="col-sm-6">
+Escribe tu mensaje: (Menos de 200 caracteres)
+<textarea class="form-control" maxlength="200" onKeyDown="cuenta()" onKeyUp="cuenta()" placeholder="Texto del mensaje" name="setMensaje"></textarea>
+</div><br><br><br><br><br>
+Caracteres:
+   	<input type="text" name=caracteres size=4><br>
+<br>	
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<input class="btn btn-default" type="submit" value="Enviar">
+</form>
+<div class="row" style="margin-right:50px;margin-top:-190px;float:right">
+</div>
+
+{include="footer2"}

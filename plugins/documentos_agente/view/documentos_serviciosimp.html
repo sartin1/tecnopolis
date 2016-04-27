@@ -1,0 +1,46 @@
+{include="header2"}
+
+<script type="text/javascript">
+   function delete_documento(id,name)
+   {
+      if( confirm("¿Realmente desea eliminar "+name+"?") )
+      {
+         window.location.href = "{$fsc->url()}&delete="+id;
+      }
+      
+      return false;
+   }
+</script>
+<center><h2>Fotografias</h2>
+<div class="container-fluid" style="margin-top: 15px;">
+   <div class="row">
+    
+         <div class="table-responsive">
+            <table class="table">
+              
+               {loop="$fsc->documentos"}<div class="col-sm-4"><IMG style="width: 450px" SRC="{$value->ruta}"></IMG>
+               <tr{if="!$value->file_exists()"} class="danger"{/if}>
+               
+                     {if="$value->file_exists()"}
+                      &nbsp;
+                     {else}
+                     <span class="glyphicon glyphicon-remove" aria-hidden="true" title="No se encuentra el archivo"></span> &nbsp;
+                     {/if}
+                     
+                  </td>
+                  
+               </tr>
+               {else}
+               <tr class="warning">
+                  <td colspan="6">Sin imagenes que mostrar.</td>
+               </tr>
+               {/loop}
+            </table>
+         </div>
+  
+      </div>
+ 
+   </div>
+</div>
+
+{include="footer2"}

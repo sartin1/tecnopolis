@@ -1,0 +1,94 @@
+{include="header"}
+<script type="text/javascript">
+
+   
+   $(document).ready(function() {
+      $("#numlineas").val(numlineas);
+      usar_serie();
+      recalcular();
+      $("#ac_cliente").autocomplete({
+         serviceUrl: nueva_venta_url,
+         paramName: 'buscar_cliente',
+         onSelect: function (suggestion) {
+            if(suggestion)
+            {
+               if(document.f_albaran.cliente.value != suggestion.data && suggestion.data != '')
+               {
+                  document.f_albaran.cliente.value = suggestion.data;
+                  usar_cliente(suggestion.data);
+               }
+            }
+         }
+      });
+   });
+</script>
+{if="$fsc->documento"}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-header">
+                <h1>Copiar <small>{$fsc->documento->codigo}</small></h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+        <div class="form-group">
+               Cliente actual:
+               <div class="input-group">
+                  <input class="form-control" type="text" name="ac_cliente" id="ac_cliente" value="{$fsc->documento->nombrecliente}" placeholder="Buscar" autocomplete="off"/>
+                  <span class="input-group-btn">
+                     <button class="btn btn-default" type="button" onclick="document.f_albaran.ac_cliente.value=''; document.f_albaran.ac_cliente.focus();">
+                        <span class="glyphicon glyphicon-edit"></span>
+                     </button>
+                  </span>
+               </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            Fecha: {$fsc->documento->fecha}
+        </div>
+        <div class="col-sm-4">
+            Hora: {$fsc->documento->hora}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <br/>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Artículo</th>
+                            <th class="text-right">Cantidad</th>
+                            <th class="text-right">Precio</th>
+                            <th class="text-right">Descuento</th>
+                            <th class="text-right">Importe</th>
+                        </tr>
+                    </thead>
+                    {loop="$fsc->documento->get_lineas()"}
+                    <tr>
+                        <td>{$value->referencia} {$value->descripcion}</td>
+                        <td class="text-right">{$value->cantidad}</td>
+                        <td class="text-right">{$fsc->show_precio($value->pvpunitario)}</td>
+                        <td class="text-right">{$fsc->show_numero($value->dtopor)} %</td>
+                        <td class="text-right">{$fsc->show_precio($value->pvptotal)}</td>
+                    </tr>
+                    {/loop}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            <a href="{$fsc->url()}&copiar=TRUE" class="btn btn-sm btn-primary">
+                Copiar
+            </a>
+        </div>
+    </div>
+</div>
+{else}
+<h1>No se ha encontrado nada.</h1>
+{/if}
+
+{include="footer"}
