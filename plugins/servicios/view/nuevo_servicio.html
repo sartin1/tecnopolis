@@ -16,14 +16,14 @@
    cliente = {function="json_encode($fsc->cliente_s)"};
    nueva_venta_url = '{$fsc->url()}';
    kiwimaru_url = '{#FS_COMMUNITY_URL#}/index.php?page=kiwimaru';
-   
+
    $(document).ready(function() {
       usar_serie();
       recalcular();
    });
 </script>
 
-<form id="f_new_servicio" class="form" name="f_new_servicio" action="{$fsc->url()}" method="post">
+<form id="f_new_servicio" target="blank" class="form" name="f_new_servicio" action="{$fsc->url()}" method="post">
    <input type="hidden" name="petition_id" value="{$fsc->random_string()}"/>
    <input type="hidden" id="numlineas" name="numlineas" value="0"/>
    <input type="hidden" name="cliente" value="{$fsc->cliente_s->codcliente}"/>
@@ -39,7 +39,7 @@
                Telefono:
                <input type="text" name="telefonocli" class="form-control" value="{$fsc->cliente_s->telefono1}" autocomplete="off"/>
             </div>
-         </div> 
+         </div>
          <div class="col-sm-2">
             <div class="form-group">
                <a href="index.php?page=opciones_servicios#estados" target="_blank">Estado</a>:
@@ -56,7 +56,7 @@
                <input type="text" name="fecha" class="form-control datepicker" value="{$fsc->today()}" autocomplete="off"/>
             </div>
          </div>
-        
+
          <div class="col-sm-2">
             <div class="form-group">
                Hora:
@@ -85,7 +85,7 @@
                <span class="hidden-xs">&nbsp; Dirección</span>
             </a>
          </li>
-         <li role="presentation">
+         <li role="presentation" style="display:none">
             <a href="#opciones" aria-controls="opciones" role="tab" data-toggle="tab">
                <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
                <span class="hidden-xs">&nbsp; Opciones</span>
@@ -120,7 +120,7 @@
                      </div>
                   </div>
                   {/if}
-               </div>            
+               </div>
                <div class="row">
                   {if="$fsc->servicios_setup['servicios_mostrar_descripcion']"}
                   <div class="col-sm-6">
@@ -140,6 +140,32 @@
                   {/if}
                </div>
                <div class="row">
+                 <div class="col-sm-2">
+                   <div class="form-group">
+                     Presupuesto previo:
+                     <select class="form-control" name="presupre">
+                       <option value="Si">
+                         Si
+                       </option>
+                       <option value="No">
+                         No
+                       </option>
+                     </select>
+                   </div>
+                 </div>
+                 <div class="col-sm-2">
+                   <div class="form-group">
+                    Repuesto:
+                     <select class="form-control" name="repuesto">
+                       <option value="Si">
+                         Si
+                       </option>
+                       <option value="No">
+                         No
+                       </option>
+                     </select>
+                   </div>
+                 </div>
                {if="$fsc->servicios_setup['servicios_mostrar_fechainicio']"}
                 <div class='col-sm-3'>
                     <div class="form-group {if="$fsc->servicios_setup['servicios_fechainicio']"}has-error{/if}">
@@ -150,20 +176,20 @@
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
-                    </div> 
-                </div>   
-                {/if}  
+                    </div>
+                </div>
+                {/if}
                <script type="text/javascript">
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip()
-                    
+
                     $('#fechainicio').datetimepicker({
                         language: 'es',
                         format: 'DD-MM-YYYY HH:mm',
                         extraFormats: [ 'DD-MM-YYYY HH:mm', 'DD-M-YYYY HH:mm' ],
                         startDate: new Date(),
                         defaultDate: new Date(),
-                        
+
                     });
                     $('#fechafin').datetimepicker({
                         language: 'es',
@@ -179,6 +205,7 @@
                     });
                 });
                 </script>
+
                   {if="$fsc->servicios_setup['servicios_mostrar_fechafin']"}
                   <div class='col-sm-3'>
                     <div class="form-group {if="$fsc->servicios_setup['servicios_fechafin']"}has-error{/if}">
@@ -265,7 +292,7 @@
                            </a>
                         </td>
                         <td colspan="4" class="text-right">Totales:</td>
-                        <td>  
+                        <td>
                            <div id="aneto" class="form-control text-right" style="font-weight: bold;">{$fsc->show_numero(0)}</div>
                         </td>
                         <td>
@@ -410,7 +437,7 @@
          </div>
       </div>
    </div>
-   
+
    <div class="container-fluid" style="margin-top: 10px;">
       <div class="row">
          <div class="col-sm-6">
@@ -573,7 +600,7 @@
       No tienes un emleado asociado a tu <a href="{$fsc->user->url()}">usuario</a>.
       Habla con el administrador para que te asigne un empleado.
    </p>
-   
+
 </div>
 {else}
 <script type="text/javascript" src="{$fsc->get_js_location('provincias.js')}"></script>
@@ -581,7 +608,7 @@
    $(document).ready(function() {
       $("#modal_cliente").modal('show');
       document.f_nueva_venta.ac_cliente.focus();
-      
+
       $("#ac_cliente").autocomplete({
          serviceUrl: '{$fsc->url()}',
          paramName: 'buscar_cliente',

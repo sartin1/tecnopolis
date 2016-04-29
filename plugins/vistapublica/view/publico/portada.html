@@ -1,0 +1,139 @@
+{include="publico/header"}
+<script type="text/javascript">
+   $(document).ready(function() {
+
+     $("#ac_cliente1")({
+        serviceUrl: '{$fsc->url()}',
+        paramName: 'buscar_cliente1',
+        onSelect: function (suggestion) {
+           if(suggestion)
+           {
+              if(document.f_custom_search1.codcliente.value != suggestion.data && suggestion.data != '')
+              {
+                 document.f_custom_search1.codcliente.value = suggestion.data;
+                 document.f_custom_search1.submit();
+              }
+           }
+        }
+     });
+
+      $("#ac_cliente").autocomplete({
+         serviceUrl: '{$fsc->url()}',
+         paramName: 'buscar_cliente',
+         onSelect: function (suggestion) {
+            if(suggestion)
+            {
+               if(document.f_custom_search.codcliente.value != suggestion.data && suggestion.data != '')
+               {
+                  document.f_custom_search.codcliente.value = suggestion.data;
+                  document.f_custom_search.submit();
+               }
+            }
+         }
+      });
+   });
+</script>
+
+<div class="container-fluid" style="margin-top: -30px;">
+   <div class="row">
+      <div class="col-sm-12">
+         <h2>Sección pública de {$fsc->empresa->nombre}</h2>
+         <p>
+           Desde aquí puede consultar sus facturas {if condition="in_array('servicios',$GLOBALS['plugins'])"}y sus servicios{/if}, solo se requiere su numero de {#FS_CIFNIF#}
+           o su nombre para poder utilizar este servicio.
+         </p>
+      </div>
+   </div>
+</div>
+
+  <div class="container-fluid">
+  <ul class="nav nav-pills">
+    {if condition="in_array('servicios',$GLOBALS['plugins'])"}
+  <li><a data-toggle="pill" href="#home"><span class="glyphicon glyphicon-wrench"></span> Buscar Servicios</a></li>
+  {/if}
+<li><a data-toggle="pill" href="#menu1"><span class="glyphicon glyphicon-file"></span> Buscar Facturas</a></li>
+</ul>{if condition="in_array('servicios',$GLOBALS['plugins'])"}
+<div class="tab-content">
+  <div id="home" class="tab-pane fade in">
+    <br>
+      <div class="container-fluid">
+        <form name="f_custom_search" target="servicios" action="index.php?page=vistapublica_busqueda"  method="post" class="form">
+        {if="$fsc->cliente"}
+        <input type="hidden" name="codcliente" value="{$fsc->cliente->codcliente}"/>
+        {else}
+        <input type="hidden" name="codcliente"/>
+        {/if}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                 &nbsp; Buscar Servicios
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-sm-2">
+                  Ingrese su {#FS_CIFNIF#}
+                    <div class="form-group">
+                      <div class="input-group">
+                        {if="$fsc->cliente"}
+                        <input class="form-control" type="text" name="ac_cliente" value="{$fsc->cliente->nombre}" id="ac_cliente" placeholder="Cualquier cliente" autocomplete="off" required=""/>
+                        {else}
+                        <input class="form-control" type="text" name="ac_cliente" id="ac_cliente" placeholder="Cualquier cliente" autocomplete="off" required=""/>
+                        {/if}
+                      </div>
+                    </div>
+                    {loop="$fsc->extensions"}
+                       {if="$value->type=='tab'"}
+                       <div role="tabpanel" class="tab-pane" id="ext_{$value->name}">
+                          <iframe src="" name="servicios" width="1260" height="%100" frameborder="0"></iframe>
+                       </div>
+                       {/if}
+                    {/loop}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>{/if}
+  <div id="menu1" class="tab-pane fade">
+    <br>
+    <div class="container-fluid">
+      <form name="f_custom_search1" target="facturas" action="index.php?page=vistapublica_busquedafac"  method="post" class="form">
+      {if="$fsc->cliente"}
+      <input type="hidden" name="codcliente" value="{$fsc->cliente->codcliente}"/>
+      {else}
+      <input type="hidden" name="codcliente"/>
+      {/if}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+               <span class="glyphicon glyphicon-file"></span></span>
+               &nbsp; Buscar Facturas
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-2">
+                Ingrese su {#FS_CIFNIF#}
+                  <div class="form-group">
+                    <div class="input-group">
+                      {if="$fsc->cliente"}
+                      <input class="form-control" type="text" name="ac_cliente1" value="{$fsc->cliente->nombre}" id="ac_cliente1" placeholder="Cualquier cliente" autocomplete="off" required=""/>
+                      {else}
+                      <input class="form-control" type="text" name="ac_cliente1" id="ac_cliente1" placeholder="Cualquier cliente" autocomplete="off" required=""/>
+                      {/if}
+                    </div>
+                  </div>
+                  <iframe src="" name="facturas" width="1260" height="%100" frameborder="0"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>  </div>
+{include="publico/footer"}

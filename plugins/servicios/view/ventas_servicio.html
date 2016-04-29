@@ -92,7 +92,7 @@
                <a id="b_imprimir" class="btn btn-sm btn-default" href="#">
                   <span class="glyphicon glyphicon-print"></span>
                   <span class="hidden-xs"> &nbsp; Imprimir</span>
-               </a> 
+               </a>
                <a href="index.php?page=ventas_servicios_calendario" class="btn btn-sm btn-default">
                <span class="glyphicon glyphicon-calendar"></span> &nbsp; Ir al calendario
             </a>
@@ -273,7 +273,7 @@
       </ul>
       <div class="tab-content">
          <div role="tabpanel" class="tab-pane active" id="servicio">
-            <div class="container-fluid" style="margin-top: 10px;">   
+            <div class="container-fluid" style="margin-top: 10px;">
                <div class="row">
                   {if="$fsc->servicios_setup['servicios_mostrar_material']"}
                   <div class="col-sm-4">
@@ -299,7 +299,7 @@
                      </div>
                   </div>
                   {/if}
-               </div>            
+               </div>
                <div class="row">
                   {if="$fsc->servicios_setup['servicios_mostrar_descripcion']"}
                   <div class="col-sm-6">
@@ -317,12 +317,50 @@
                      </div>
                   </div>
                   {/if}
-               </div>   
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <select name="repuesto" class="form-control"{if="!$fsc->servicio->editable()"} disabled{/if}>
+                        Requiere Repuesto
+                        <option selected="selected" value="{$fsc->servicio->repuesto}">
+                        {$fsc->servicio->repuesto}
+                        </option>
+                        <option value="Si">
+                          ----
+                        </option>
+                        <option value="Si">
+                          Si
+                        </option>
+                        <option value="No">
+                          No
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      Presupuesto previo
+                      <select name="presupre" class="form-control"{if="!$fsc->servicio->editable()"} disabled{/if}>
+                        <option value="{$fsc->servicio->presupre}">
+                          {$fsc->servicio->presupre}
+                        </option>
+                        <option value="Si">
+                          ----
+                        </option>
+                        <option value="Si">
+                          Si
+                        </option>
+                        <option value="No">
+                          No
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+               </div>
                <div class="row bg-info">
                <script type="text/javascript">
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip()
-                    
+
                     $('#fechainicio').datetimepicker({
                         language: 'es',
                         format: 'DD-MM-YYYY HH:mm',
@@ -333,7 +371,7 @@
                     $('#fechafin').datetimepicker({
                         language: 'es',
                         format: 'DD-MM-YYYY HH:mm',
-                        startDate: new Date(), 
+                        startDate: new Date(),
                         minDate: moment(),
                     });
                     $('#fechainicio input').click(function(event){
@@ -352,11 +390,11 @@
                             <input type='text' id="fechainicio" data-toggle="tooltip" data-placement="bottom" title="Fecha: : dd-mm-aaaa hh:mm" name="fechainicio" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4} ([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]" value="{$fsc->servicio->fechainicio}" class="form-control" {if="$fsc->servicios_setup['servicios_fechainicio']"} required{/if}/>
                             <span class="input-group-addon">
                                  <span class="glyphicon glyphicon-calendar"></span>
-                            </span>             
+                            </span>
                         </div>
                     </div>
-                </div>   
-                {/if}  
+                </div>
+                {/if}
                   {if="$fsc->servicios_setup['servicios_mostrar_fechafin']"}
                   <div class='col-sm-3'>
                    <div class="form-group {if="$fsc->servicios_setup['servicios_fechafin']"}has-error{/if}">
@@ -365,7 +403,7 @@
                             <input type="text" data-toggle="tooltip" data-placement="bottom" title="Fecha: : dd-mm-aaaa hh:mm" name="fechafin" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4} ([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]" value="{$fsc->servicio->fechafin}" class="form-control" {if="$fsc->servicios_setup['servicios_fechafin']"} required{/if}/>
                             <span class="input-group-addon">
                                  <span class="glyphicon glyphicon-calendar"></span>
-                            </span> 
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -382,15 +420,15 @@
                   {/if}
                   <div class="col-sm-2">
                      <div class="form-group">
-                         Prioridad:                       
+                         Prioridad:
                         <select name="prioridad" class="form-control"{if="!$fsc->servicio->editable()"} disabled{/if}>
                            {loop="$fsc->servicio->listar_prioridad()"}
                            <option value="{$value['id_prioridad']}"{if="$value['id_prioridad'] == $fsc->servicio->prioridad"} selected="selected"{/if}>{$value['nombre_prioridad']}</option>
                            {/loop}
                         </select>
                      </div>
-                  </div>   
-               </div>     
+                  </div>
+               </div>
             </div>
          </div>
          <div role="tabpanel" class="tab-pane" id="lineas_p">
@@ -616,7 +654,7 @@
                   </tr>
                </table>
             </div>
-          </div>     
+          </div>
          <div role="tabpanel" class="tab-pane" id="opciones">
             <div class="container-fluid" style="margin-top: 10px;">
                <div class="row">
@@ -920,10 +958,8 @@
                </div>
                <div class="form-group">
                   <input name="adjunto" type="file"/>
-                  <p class="help-block">
-                     Se va a adjuntar el {#FS_SERVICIO#}, pero si lo deseas
-                     puedes añadir otro archivo de hasta {$fsc->get_max_file_upload()} MB
-                  </p>
+                  <input name="adjunto1" type="file"/>
+                  <input name="adjunto2" type="file"/>
                </div>
                {loop="$fsc->extensions"}
                   {if="$value->type=='email'"}

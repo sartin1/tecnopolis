@@ -28,12 +28,12 @@
    function mas_resultados(num)
    {
       document.f_buscar_lineas.offset.value = parseInt(document.f_buscar_lineas.offset.value) + parseInt(num);
-      
+
       if(document.f_buscar_lineas.offset.value < 0)
       {
          document.f_buscar_lineas.offset.value = 0;
       }
-      
+
       buscar_lineas();
    }
    function clean_cliente()
@@ -43,11 +43,11 @@
       document.f_custom_search.ac_cliente.focus();
    }
    $(document).ready(function() {
-      
+
       {if="$fsc->mostrar=='buscar'"}
       document.f_custom_search.query.focus();
       {/if}
-      
+
       $('#b_buscar_lineas').click(function(event) {
          event.preventDefault();
          $('#modal_buscar_lineas').modal('show');
@@ -274,6 +274,7 @@
             <th class="text-right">Total</th>
             <th class="text-right">Fecha</th>
             <th class="text-right hidden-sm">Hora</th>
+            <th></th>
          </tr>
       </thead>
       {loop="$fsc->resultados"}
@@ -297,6 +298,10 @@
             {if="$value->fecha==$fsc->today()"}<b>{$value->fecha}</b>{else}{$value->fecha}{/if}
          </td>
          <td class="text-right hidden-sm">{$value->hora}</td>
+         <td class="text-right"><a href="index.php?page=ventas_facturas&delete={$value->idalbaran}" onClick="return confirm('¿Seguro que quieres eliminar este {#FS_ALBARAN#}?')"><span class="glyphicon glyphicon-trash"></span>
+         <span class="hidden-sm hidden-xs">&nbsp; Eliminar</span>
+            </a>
+         </td>
       </tr>
       {else}
       <tr class="warning">

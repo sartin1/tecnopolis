@@ -28,12 +28,12 @@
    function mas_resultados(num)
    {
       document.f_buscar_lineas.offset.value = parseInt(document.f_buscar_lineas.offset.value) + parseInt(num);
-      
+
       if(document.f_buscar_lineas.offset.value < 0)
       {
          document.f_buscar_lineas.offset.value = 0;
       }
-      
+
       buscar_lineas();
    }
    function clean_cliente()
@@ -42,7 +42,7 @@
       document.f_custom_search.codcliente.value='';
       document.f_custom_search.ac_cliente.focus();
       document.f_custom_search.submit();
-   }    
+   }
    $(document).ready(function() {
       $('#b_buscar_lineas').click(function(event) {
          event.preventDefault();
@@ -96,7 +96,7 @@
             {/if}
          </div>
          <div class="btn-group">
-            <a class="btn btn-sm btn-success" href="index.php?page=nuevo_servicio">
+            <a class="btn btn-sm btn-success" target="blank" href="index.php?page=nuevo_servicio">
                <span class="glyphicon glyphicon-plus"></span>
                <span class="hidden-xs">&nbsp; Nuevo</span>
             </a>
@@ -191,7 +191,7 @@
    </a>
 </div>
 {/if}
-<ul class="nav nav-tabs" role="tablist"> 
+<ul class="nav nav-tabs" role="tablist">
    <li  class="active">
       <a href="#" title="Buscar">
          <span class="glyphicon glyphicon-search"></span>
@@ -217,7 +217,7 @@
                   <span class="input-group-btn">
                      <button class="btn btn-primary hidden-sm" type="submit">
                         <span class="glyphicon glyphicon-search"></span>
-                     </button> 
+                     </button>
                   </span>
                </div>
             </div>

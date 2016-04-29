@@ -191,6 +191,16 @@
       <nulo>YES</nulo>
    </columna>
    <columna>
+      <nombre>presupre</nombre>
+      <tipo>text</tipo>
+      <nulo>YES</nulo>
+   </columna>
+   <columna>
+      <nombre>repuesto</nombre>
+      <tipo>text</tipo>
+      <nulo>YES</nulo>
+   </columna>
+   <columna>
       <nombre>material</nombre>
       <tipo>text</tipo>
       <nulo>YES</nulo>

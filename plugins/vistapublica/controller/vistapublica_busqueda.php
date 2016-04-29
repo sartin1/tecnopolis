@@ -1,16 +1,43 @@
 <?php
 
-require_model('registro_sat.php');
-require_model('detalle_sat.php');
-require_model('agente.php');
-require_model('articulo.php');
-require_model('cliente.php');
-require_model('servicio_cliente.php');
-require_model('estado_servicio.php');
-require_model('detalle_servicio.php');
+/*
+ * Copyright (C) 2015-2016  Carlos Garcia Gomez  neorazorx@gmail.com
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-class ventas_servicios extends fs_controller
+ require_model('registro_sat.php');
+ require_model('detalle_sat.php');
+ require_model('agente.php');
+ require_model('articulo.php');
+ require_model('cliente.php');
+ require_model('servicio_cliente.php');
+ require_model('estado_servicio.php');
+ require_model('detalle_servicio.php');
+/**
+ * Description of informame_home
+ *
+ * @author carlos
+ */
+class vistapublica_busqueda extends fs_controller
 {
+
+   public function __construct()
+   {
+      parent::__construct(__CLASS__, ' ', '');
+   }
+
    public $agente;
    public $articulo;
    public $buscar_lineas;
@@ -33,14 +60,16 @@ class ventas_servicios extends fs_controller
    public $detalle_sat;
    public $servicios_setup;
 
-   public function __construct()
-   {
-      parent::__construct(__CLASS__, 'Servicios a clientes', 'ventas');
-   }
-
    protected function private_core()
    {
-      //cargamos configuración de servicios
+
+   }
+
+   protected function public_core()
+   {
+    $this->share_extension();
+     $this->template = 'publico/busqueda';
+     $this->page_title = $this->empresa->nombrecorto;
        $fsvar = new fs_var();
        $this->servicios_setup = $fsvar->array_get(
          array(
@@ -81,16 +110,7 @@ class ventas_servicios extends fs_controller
          ),
          FALSE
       );
-      $this->avisosat = '0';
-      if( class_exists('registro_sat') )
-      {
-         $this->avisosat = '1';
-      }
 
-      if( isset($_GET['importar']) )
-      {
-         $this->importar_sat();
-      }
 
       $servicio = new servicio_cliente();
       $this->agente = new agente();
@@ -158,7 +178,6 @@ class ventas_servicios extends fs_controller
       }
       else
       {
-         $this->share_extension();
          $this->cliente = FALSE;
          $this->codagente = '';
          $this->codserie = '';
@@ -211,7 +230,7 @@ class ventas_servicios extends fs_controller
 
    }
 
-   private function buscar_cliente()
+   public function buscar_cliente()
    {
       /// desactivamos la plantilla HTML
       $this->template = FALSE;
@@ -245,63 +264,7 @@ class ventas_servicios extends fs_controller
       }
    }
 
-   private function delete_servicio()
-   {
-      $serv = new servicio_cliente();
-      $serv1 = $serv->get($_POST['delete']);
-      if ($serv1)
-      {
-         if ($serv1->delete())
-         {
-            $this->new_message(ucfirst(FS_SERVICIO) . ' ' . $serv1->codigo . " borrado correctamente.");
-         }
-         else
-            $this->new_error_msg("¡Imposible borrar el " . FS_SERVICIO . "!");
-      }
-      else
-         $this->new_error_msg("¡" . ucfirst(FS_SERVICIO) . " no encontrado!");
-   }
-
-   private function share_extension()
-   {
-      /// añadimos las extensiones para clientes, agentes y artículos
-      $extensiones = array(
-          array(
-              'name' => 'servicios_cliente',
-              'page_from' => __CLASS__,
-              'page_to' => 'ventas_cliente',
-              'type' => 'button',
-              'text' => '<span class="glyphicon glyphicon-list" aria-hidden="true"></span> &nbsp; '.ucfirst(FS_SERVICIO),
-              'params' => ''
-          ),
-          array(
-              'name' => 'servicios_agente',
-              'page_from' => __CLASS__,
-              'page_to' => 'admin_agente',
-              'type' => 'button',
-              'text' => '<span class="glyphicon glyphicon-list" aria-hidden="true"></span> &nbsp; '.ucfirst(FS_SERVICIO) . ' de cliente',
-              'params' => ''
-          ),
-          array(
-              'name' => 'servicios_articulo',
-              'page_from' => __CLASS__,
-              'page_to' => 'ventas_articulo',
-              'type' => 'tab_button',
-              'text' => '<span class="glyphicon glyphicon-list" aria-hidden="true"></span> &nbsp; '.ucfirst(FS_SERVICIO) . ' de cliente',
-              'params' => ''
-          ),
-      );
-      foreach ($extensiones as $ext)
-      {
-         $fsext0 = new fs_extension($ext);
-         if (!$fsext0->save())
-         {
-            $this->new_error_msg('Imposible guardar los datos de la extensión ' . $ext['name'] . '.');
-         }
-      }
-   }
-
-   private function buscar()
+   public function buscar()
    {
       $this->resultados = array();
       $this->num_resultados = 0;
@@ -348,17 +311,6 @@ class ventas_servicios extends fs_controller
          $where = ' AND ';
       }
 
-      if($this->codagente != '')
-      {
-         $sql .= $where."codagente = ".$this->agente->var2str($this->codagente);
-         $where = ' AND ';
-      }
-
-      if($this->estado != '')
-      {
-         $sql .= $where."idestado = ".$this->estado;
-         $where = ' AND ';
-      }
 
       if($this->cliente)
       {
@@ -366,29 +318,6 @@ class ventas_servicios extends fs_controller
          $where = ' AND ';
       }
 
-      if($this->codserie != '')
-      {
-         $sql .= $where."codserie = ".$this->agente->var2str($this->codserie);
-         $where = ' AND ';
-      }
-
-      if($this->desde != '')
-      {
-         $sql .= $where."fecha >= ".$this->agente->var2str($this->desde);
-         $where = ' AND ';
-      }
-
-      if($this->hasta != '')
-      {
-         $sql .= $where."fecha <= ".$this->agente->var2str($this->hasta);
-         $where = ' AND ';
-      }
-
-      if($this->editable != '')
-      {
-         $sql .= $where."idalbaran IS NULL";
-         $where = ' AND ';
-      }
 
       $data = $this->db->select("SELECT COUNT(idservicio) as total".$sql);
       if($data)
@@ -411,88 +340,6 @@ class ventas_servicios extends fs_controller
             $this->total_resultados_txt = 'Suma total de los resultados:';
          }
       }
-   }
-
-   private function importar_sat()
-   {
-      $this->registro_sat = new registro_sat();
-      $this->detalle_sat = new detalle_sat();
-      $this->cliente = new cliente();
-      $importados = 0;
-      $importados_det = 0;
-      $data = $this->db->select("SELECT * FROM registros_sat;");
-      if($data)
-      {
-         foreach($data as $d)
-         {
-            $servicio = $this->registro_sat->get($d['nsat']);
-            if($servicio)
-            {
-               $servicio = new servicio_cliente();
-               $servicio->numero2 = "SAT_".$d['nsat'];
-               $servicio->fecha = $d['fentrada'];
-               if(isset($d['fcomienzo']))
-               {
-                   $servicio->fechainicio = Date('d-m-Y H:i', strtotime($d['fcomienzo']));
-               }
-               if(isset($d['ffin']))
-               {
-                   $servicio->fechafin = Date('d-m-Y H:i', strtotime($d['ffin']));
-               }
-               //obtenemos ejercicio
-               $eje0 = new ejercicio();
-               $ejercicio = $eje0->get_by_fecha($d['fentrada']);
-               $servicio->codejercicio = $ejercicio->codejercicio;
-
-               $servicio->material = $d['modelo'];
-               $servicio->descripcion = $d['averia'];
-               $servicio->accesorios = $d['accesorios'];
-               $servicio->codcliente = $d['codcliente'];
-               $servicio->observaciones  = $d['observaciones'];
-               $servicio->codagente = $d['codagente'];
-               $servicio->idestado = '1';
-               $servicio->prioridad = $d['prioridad'];
-               //obtenemos cliente
-               $cliente0 = new cliente();
-               $cliente = $cliente0->get($d['codcliente']);
-               $servicio->nombrecliente = $cliente->nombre;
-
-               $servicio->codserie = $this->empresa->codserie;
-               $servicio->codpago = $this->empresa->codpago;
-
-               if( $servicio->save() )
-               {
-                  $importados++;
-               }
-
-               //Importamos Detalles:
-               $data2 = $this->db->select("SELECT * FROM detalles_sat WHERE nsat=".$d['nsat'].";");
-               if($data2)
-                {
-                   foreach($data2 as $d2)
-                   {
-                      $detalle = $this->detalle_sat->get($d2['id']);
-                        if($detalle)
-                        {
-                            $detalle = new detalle_servicio();
-                            $detalle->idservicio = $servicio->idservicio;
-                            $detalle->descripcion = $d2['descripcion'];
-                            $detalle->fecha= $d2['fecha'];
-                            if( $detalle->save() )
-                                {
-                                   $importados_det++;
-                                }
-                        }
-                   }
-                }
-
-            }
-         }
-      }
-
-      $this->new_message($importados.' registros SAT importados.');
-      $this->new_message($importados_det.' detalles SAT importados.');
-      $this->avisosat = '2';
    }
 
     public function paginas()
@@ -559,6 +406,45 @@ class ventas_servicios extends fs_controller
       {
          return array();
       }
+   }
+
+   private function share_extension()
+   {
+      $extensiones = array(
+          array(
+              'name' => 'vistapublica_busqueda',
+              'page_from' => __CLASS__,
+              'page_to' => 'vistapublica_home',
+              'type' => 'tab',
+              'text' => '<span class="glyphicon glyphicon-file" aria-hidden="true" title="Documentos"></span>',
+              'params' => ''
+          ),
+        );
+        foreach($extensiones as $ext)
+        {
+           $fsext = new fs_extension($ext);
+           $fsext->save();
+        }
+      }
+   public function full_url()
+   {
+      $url = $this->empresa->web;
+
+      if( isset($_SERVER['SERVER_NAME']) )
+      {
+         if($_SERVER['SERVER_NAME'] == 'localhost')
+         {
+            $url = 'http://'.$_SERVER['SERVER_NAME'];
+
+            if( isset($_SERVER['REQUEST_URI']) )
+            {
+               $aux = parse_url( str_replace('/index.php', '', $_SERVER['REQUEST_URI']) );
+               $url .= $aux['path'];
+            }
+         }
+      }
+
+      return $url;
    }
 
 

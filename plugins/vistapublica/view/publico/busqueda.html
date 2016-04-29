@@ -1,0 +1,99 @@
+{include="header2"}
+
+<script type="text/javascript">
+   $(document).ready(function() {
+
+      $("#ac_cliente").autocomplete({
+         serviceUrl: '{$fsc->url()}',
+         paramName: 'buscar_cliente',
+         onSelect: function (suggestion) {
+            if(suggestion)
+            {
+               if(document.f_custom_search.codcliente.value != suggestion.data && suggestion.data != '')
+               {
+                  document.f_custom_search.codcliente.value = suggestion.data;
+                  document.f_custom_search.submit();
+               }
+            }
+         }
+      });
+   });
+</script>
+<div class="container-fluid">
+  <form name="f_custom_search" action="asd" method="post" class="form">
+     {if="$fsc->cliente"}
+     Servicios de <strong>{$fsc->cliente->razonsocial}</strong>
+     <br>
+     <input type="hidden" name="codcliente" value="{$fsc->cliente->codcliente}"/>
+     {else}
+     <input type="hidden" name="codcliente"/>
+     {/if}
+     <div class="container-fluid">
+        <div class="row">
+           <div class="col-sm-2" style="display:none">
+              Cliente
+              <div class="form-group">
+                 <div class="input-group">
+                    {if="$fsc->cliente"}
+                    <input class="form-control" type="text" name="ac_cliente" value="{$fsc->cliente->nombre}" id="ac_cliente" placeholder="Cualquier cliente" autocomplete="off"/>
+                    {else}
+                    <input class="form-control" type="text" name="ac_cliente" id="ac_cliente" placeholder="Cualquier cliente" autocomplete="off"/>
+                    {/if}
+                    <span class="input-group-btn">
+                       <button class="btn btn-default" type="button" onclick="clean_cliente()">
+                          <span class="glyphicon glyphicon-remove"></span>
+                       </button>
+                    </span>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+  </form>
+   <div class="table-responsive">
+      <table class="table table-bordered">
+          <thead>
+              <tr>
+                <th>Código</th>
+                <th>Estado</th>
+                {if="$fsc->servicios_setup['servicios_mostrar_material']"}
+                <th>{$fsc->st['st_material']} </th>
+                {/if}
+                <th class="text-right">Precio</th>
+                <th class="text-right">Fecha</th>
+                {if="$fsc->servicios_setup['servicios_mostrar_fechainicio']"}
+                <th class="text-right">Fecha inicio</th>
+                {/if}
+                  {if="$fsc->servicios_setup['servicios_mostrar_fechafin']"}
+                <th class="text-right">Fecha Prev. Fin</th>
+                {/if}
+              </tr>
+         </thead>
+         {loop="$fsc->resultados"}
+         <tr class="clickableRow" href="{$value->url()}" style="background-color: #{$value->color_estado()}">
+            <td><a href="{$value->url()}">{$value->codigo}</a> {$value->numero2}</td>
+            <td>{$value->nombre_estado()}</td>
+            {if="$fsc->servicios_setup['servicios_mostrar_material']"}
+            <td>{$value->material}</td>
+            {/if}
+            <td class="text-right">{$fsc->show_precio($value->total, $value->coddivisa)}</td>
+            <td class="text-right">
+               {if="$value->fecha==$fsc->today()"}<b>{$value->fecha}</b>{else}{$value->fecha}{/if} | {$value->show_hora()}
+            </td>
+            {if="$fsc->servicios_setup['servicios_mostrar_fechainicio']"}
+            <td class="text-right">{$value->fechainicio}</td>
+            {/if}
+            {if="$fsc->servicios_setup['servicios_mostrar_fechafin']"}
+            <td class="text-right">{$value->fechafin}</td>
+            {/if}
+         </tr>
+         {else}
+         <tr class="warning">
+            <td></td>
+            <td colspan="9">Ningún {#FS_SERVICIO#} encontrado. Pulsa el botón <b>Nuevo</b> para crear uno.</td>
+         </tr>
+         {/loop}
+      </table>
+    </div>
+</div>
+{include="publico/footer"}
