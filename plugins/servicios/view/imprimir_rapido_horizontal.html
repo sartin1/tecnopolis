@@ -73,7 +73,7 @@ window.print()
 				<div class="col-xs-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							 <h3 class="panel-title">
+							 <h3 class="panel-title" style="font-size: 10px">
 									<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 
 									&nbsp; Datos del equipo recepcionado
@@ -85,48 +85,43 @@ window.print()
 							{if="$fsc->servicios_setup['servicios_mostrar_material']"}
 
 								<strong>{$fsc->st['st_material']}:</strong><br/>{$fsc->servicio->material}
+</div><div class="col-xs-6">
+	<strong>Requiere repuesto:</strong> <br/>{$fsc->servicio->repuesto}
 </div></div>
 <div class="col-xs-12">
+
 <div class="col-xs-6">
-	<strong>Requiere repuesto:</strong> {$fsc->servicio->repuesto}
-</div>
-<div class="col-xs-6">
-	<strong>¿Presupuesto previo?:</strong> {$fsc->servicio->presupre}
+	<strong>¿Presupuesto previo?:</strong> <br/>{$fsc->servicio->presupre}
 </div>
 							{/if}
-							{if="$fsc->servicios_setup['servicios_mostrar_material_estado']"}
+						{if="$fsc->servicios_setup['servicios_mostrar_material_estado']"}
 							<div class="col-xs-6">
 								<strong>{$fsc->st['st_material_estado']}</strong><br/>{$fsc->servicio->material_estado}
 							</div>
 							{/if}
 						</div>
 						<div class="col-xs-12">
-
+	
 							{if="$fsc->servicios_setup['servicios_mostrar_accesorios']"}
-							<div class="col-xs-12">
+							<div class="col-xs-6">
 								<strong>{$fsc->st['st_accesorios']}:</strong><br/>{$fsc->servicio->accesorios}
 							</div>
 
 							{/if}
-						</div>
-						<div class="col-xs-12">
-							<div class="col-xs-12">
+							<div class="col-xs-6">
 								<strong>{$fsc->st['st_descripcion']}:</strong><br/>{$fsc->servicio->descripcion}
 							</div>
+						
 						</div>
 						<div class="col-xs-12">
+							
+						
 							{if="$fsc->servicios_setup['servicios_mostrar_solucion']"}
-							<div class="col-xs-12">
+							<div class="col-xs-6">
 								<strong>{$fsc->st['st_solucion']}:</strong><br/>{$fsc->servicio->solucion}
 							</div>
 							{/if}
 						</div>
-						<div class="col-xs-12">
-							<div class="col-xs-12">
-								<strong>Observaciones:</strong><br/>{$fsc->servicio->observaciones}
-							</div>
-						</div>
-
 																		<div class="col-xs-12">
 							{if="$fsc->servicios_setup['servicios_mostrar_fechainicio']"}
 							<div class="col-xs-6">
@@ -153,140 +148,159 @@ window.print()
 		</div>
 		</div>
 	<!-- Media Página 2 -->
-	<div class="col-xs-6">
 		<div class="row" style="font-size:85%">
-			<div class="col-xs-12">
+		<div class="col-xs-6">
+			<div class="row" style="font-size:85%">
 				<div class="col-xs-12">
-			<center>
-		<img src="logo.jpg" style="height:75px;margin-top:-10px;" />
-	<p>
-	<b>Orden: {$fsc->servicio->codigo}</b><br>
-	Yrigoyen 163 - 2974831504
-	</p>
-		</center>
+					<div class="col-xs-12">
+				<center>
+			<img src="logo.jpg" style="height:75px;align:center;margin-top:-10px;" />
+<p>
+		<b>Orden: {$fsc->servicio->codigo}</b>
+		<br>
+		Yrigoyen 163 - 2974831504
+</p>
+			</center>
 
+					</div>
 				</div>
-			</div>
+					<div class="col-xs-12">
+						<table class="table table-bordered">
+							<tbody>
+								<th style="width:200px;">
+										Datos de recepción | Fecha
+								</th>
+								<th>
+									Hora
+								</th>
+								<th>
+								 Técnico
+								</th>
+							</tbody>
+							<td>
+								{$fsc->servicio->fecha}
+							</td>
+							<td>
+							{$fsc->servicio->hora}
+							</td>
+							<td>
+						{$fsc->agente->get_fullname()}
+							</td>
+						</table>
+					</div>
 				<div class="col-xs-12">
 					<table class="table table-bordered">
-						<tbody>
-							<th style="width:200px;">
-									Datos de recepción | Fecha
-							</th>
-							<th>
-								Hora
-							</th>
-							<th>
-							 Técnico
-							</th>
-						</tbody>
-						<td>
-							{$fsc->servicio->fecha}
-						</td>
-						<td>
-						{$fsc->servicio->hora}
-						</td>
-						<td>
-					{$fsc->agente->get_fullname()}
-						</td>
-					</table>
-				</div>
-			<div class="col-xs-12">
-				<table class="table table-bordered">
-				<tbody>
+					<tbody>
+						<th>
+							Datos de cliente | Nombre y apellido
+						</th>
+						<th>
+								Telefono 1
+						</th>
+						<th>
+							Telefono 2
+						</th>
+					</tbody>
+					<td>
+						{$fsc->servicio->nombrecliente}
+					</td>
+					<td>
+						Telefono 1:  {$fsc->cliente->telefono1}
+					</td>
 					<th>
-						Datos de cliente | Nombre y apellido
+						<strong>Teléfono 2:</strong><br/>{$fsc->cliente->telefono2}
 					</th>
-					<th>
-							Telefono 1
-					</th>
-					<th>
-						Telefono 2
-					</th>
-				</tbody>
-				<td>
-					{$fsc->servicio->nombrecliente}
-				</td>
-				<td>
-					Telefono 1:  {$fsc->cliente->telefono1}
-				</td>
-				<th>
-					<strong>Teléfono 2:</strong><br/>{$fsc->cliente->telefono2}
-				</th>
-			</table>
-		</div>
-			<div class="col-xs-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						 <h3 class="panel-title">
-								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+				</table>
+			</div>
+				<div class="col-xs-12">
+					<div class="panel panel-default" style="font-size: 10px">
+						<div class="panel-heading">
+							 <h3 class="panel-title" style="font-size: 10px">
+									<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 
-								&nbsp; Datos del equipo recepcionado
-						 </h3>
-					</div>
-					<div class="panel-body">
-							<div class="col-xs-12">
-						<div class="col-xs-4">
-						{if="$fsc->servicios_setup['servicios_mostrar_material']"}
-							<strong>{$fsc->st['st_material']}:</strong><br/>{$fsc->servicio->material}
-						{/if}
-					</div></div>
-					<div class="col-xs-12">
-						<div class="col-xs-6">
-							<strong>¿Presupuesto previo?:</strong> {$fsc->servicio->presupre}
+									&nbsp; Datos del equipo recepcionado
+							 </h3>
 						</div>
-						<div class="col-xs-6">
-							<strong>Requiere repuesto:</strong> {$fsc->servicio->repuesto}
-						</div>
+						<div class="panel-body">
+								<div class="col-xs-12">
+							<div class="col-xs-6">
+							{if="$fsc->servicios_setup['servicios_mostrar_material']"}
+
+								<strong>{$fsc->st['st_material']}:</strong><br/>{$fsc->servicio->material}
+</div><div class="col-xs-6">
+	<strong>Requiere repuesto:</strong> <br/>{$fsc->servicio->repuesto}
+</div></div>
+<div class="col-xs-12">
+
+<div class="col-xs-6">
+	<strong>¿Presupuesto previo?:</strong> <br/>{$fsc->servicio->presupre}
+</div>
+							{/if}
 						{if="$fsc->servicios_setup['servicios_mostrar_material_estado']"}
-						<div class="col-xs-6">
-							<strong>{$fsc->st['st_material_estado']}</strong><br/>{$fsc->servicio->material_estado}
+							<div class="col-xs-6">
+								<strong>{$fsc->st['st_material_estado']}</strong><br/>{$fsc->servicio->material_estado}
+							</div>
+							{/if}
 						</div>
-						{/if}
+						<div class="col-xs-12">
+	
+							{if="$fsc->servicios_setup['servicios_mostrar_accesorios']"}
+							<div class="col-xs-6">
+								<strong>{$fsc->st['st_accesorios']}:</strong><br/>{$fsc->servicio->accesorios}
+							</div>
 
-					</div>	<div class="col-xs-12">
-					<div class="col-xs-6">
-						<strong>{$fsc->st['st_accesorios']}:</strong><br/>{$fsc->servicio->accesorios}
-					</div></div>
-					<div class="col-xs-12">
+							{/if}
+							<div class="col-xs-6">
+								<strong>{$fsc->st['st_descripcion']}:</strong><br/>{$fsc->servicio->descripcion}
+							</div>
+						
+						</div>
 						<div class="col-xs-12">
-							<strong>{$fsc->st['st_descripcion']}:</strong><br/>{$fsc->servicio->descripcion}
+							
+						
+							{if="$fsc->servicios_setup['servicios_mostrar_solucion']"}
+							<div class="col-xs-6">
+								<strong>{$fsc->st['st_solucion']}:</strong><br/>{$fsc->servicio->solucion}
+							</div>
+							{/if}
 						</div>
-					</div>
-					<div class="col-xs-12">
-						{if="$fsc->servicios_setup['servicios_mostrar_solucion']"}
+																		<div class="col-xs-12">
+							{if="$fsc->servicios_setup['servicios_mostrar_fechainicio']"}
+							<div class="col-xs-6">
+								<strong>{$fsc->st['st_fechainicio']}:</strong><br/>{$fsc->servicio->fechainicio}
+							</div>
+							{/if}
+							{if="$fsc->servicios_setup['servicios_mostrar_fechafin']"}
+							<div class="col-xs-6">
+								<strong>{$fsc->st['st_fechafin']}:</strong><br/>{$fsc->servicio->fechafin}
+							</div>
+							{/if}
+						</div>
 						<div class="col-xs-12">
-							<strong>{$fsc->st['st_solucion']}:</strong><br/>{$fsc->servicio->solucion}
-						</div>
-						{/if}
-					</div>
-
-					<div class="col-xs-12">
-						{if="$fsc->servicios_setup['servicios_mostrar_fechainicio']"}
-						<div class="col-xs-6">
-							<strong>{$fsc->st['st_fechainicio']}:</strong><br/>{$fsc->servicio->fechainicio}
-						</div>
-						{/if}
-						{if="$fsc->servicios_setup['servicios_mostrar_fechafin']"}
-						<div class="col-xs-6">
-							<strong>{$fsc->st['st_fechafin']}:</strong><br/>{$fsc->servicio->fechafin}
-						</div>
-						{/if}
-					</div>
-					<div class="col-xs-12">
-						<div class="col-xs-12">
-							<strong>Observaciones:</strong><br/>{$fsc->servicio->observaciones}
+							<div class="col-xs-12">
+								<strong>Observaciones:</strong><br/>{$fsc->servicio->observaciones}
+							</div>
 						</div>
 					</div>
-				</div>
+						</div>
 					</div>
-				</div>
-	</div>
-	<div class="col-xs-12">
-		<font size="1"><p align="justify">{$fsc->condiciones()}</p></font>
-	</div>
-	</div>
-	</div>
+		</div>
+		<div class="col-xs-12">
+			<font size="1"><p align="justify">{$fsc->condiciones()}</p></font>
+		</div>
+		<div class="col-xs-6">
+			
+		</div>
+		<div class="col-xs-6">
+		<br><br>	
+		_________________________
+		<br>
+			<BR><strong>Firma Conformidad:</strong>
+		</div>
+		</div>
+		</div>
+		
+		
 {/if}
 </div>
 
